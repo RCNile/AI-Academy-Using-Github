@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<!--
+    ===========================================================================
+    about.html — what this project is, and why GitHub is worth learning
+    ===========================================================================
+
+    NOTICE THE SHAPE OF THIS FILE
+    It's almost identical to index.html: same <head>, same header, same nav,
+    same footer. Only the <main> content differs.
+
+    That repetition is normal for a small hand-written site, and it's a useful
+    thing to see. Larger sites remove it with templates or a framework — but
+    that means a build step, and a build step is one more thing to learn. For
+    three pages, copy-and-paste is genuinely the right call.
+
+    Knowing WHEN not to reach for a tool is a real engineering skill.
+    ===========================================================================
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="What the Nile AI Academy GitHub workshop project is, why version control matters, and how non-technical people use GitHub day to day.">
+    <title>About · Nile Demo Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <div class="learning-banner">
+        <strong>Learning project</strong> — a practice repo for the Nile AI Academy
+        GitHub workshop. Nothing here is a real product, so you cannot break anything.
+    </div>
+
+    <header>
+        <h1>About This Project</h1>
+        <p>Why we're teaching this, and what you'll take away</p>
+
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <!-- aria-current moves to About on this page. Compare the three
+                 files to see how the marker follows the current page. -->
+            <a href="about.html" aria-current="page">About</a>
+            <a href="team.html">Team</a>
+        </nav>
+    </header>
+
+    <main id="main">
+
+        <!-- ---------- What is this ---------- -->
+        <section aria-labelledby="what-heading">
+            <h2 id="what-heading">What Is This?</h2>
+            <p>
+                A demonstration project built for the
+                <strong>Nile AI Academy GitHub Workshop</strong>. It's a small portfolio
+                website whose real purpose is to give you something safe to practise on.
+            </p>
+            <p>Working through it, you'll see:</p>
+            <ul class="content-list">
+                <li>How a real project is laid out on GitHub</li>
+                <li>What a genuinely useful README contains</li>
+                <li>Why <code>.gitignore</code> exists, and what happens when it's wrong</li>
+                <li>How secrets are handled with <code>.env</code> and <code>.env.example</code></li>
+                <li>How a series of commits tells the story of a project</li>
+                <li>The pull request and code review workflow</li>
+            </ul>
+            <p class="note">
+                Every file in this repo is heavily commented. Open any of them in a text
+                editor — the comments explain what the code does and why it's written
+                that way.
+            </p>
+        </section>
+
+        <!-- ---------- Why bother ---------- -->
+        <section aria-labelledby="why-heading">
+            <h2 id="why-heading">Why Learn GitHub If You Don't Write Code?</h2>
+            <p>
+                Because GitHub stopped being only for code a long time ago. At Nile it's
+                where the actual work lives:
+            </p>
+            <ul class="content-list">
+                <li><strong>Client deliverables</strong> — prototypes, sites and tools we hand over</li>
+                <li><strong>Design handover</strong> — seeing exactly what engineers built from your specs</li>
+                <li><strong>Reviewing changes</strong> — commenting on work before it ships</li>
+                <li><strong>History</strong> — answering "when did this change, and who decided that?"</li>
+                <li><strong>Issues</strong> — the shared to-do list for a project</li>
+                <li><strong>Documentation</strong> — READMEs, decisions, research notes</li>
+            </ul>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">The practical payoff</span>
+                Being able to clone a repo, read a diff and leave a review comment changes
+                how you work with engineers. You stop waiting for someone to export a
+                screenshot for you.
+            </div>
+        </section>
+
+        <!-- ---------- Secrets ---------- -->
+        <section aria-labelledby="secrets-heading">
+            <h2 id="secrets-heading">The One Rule You Must Not Break</h2>
+            <p>
+                Everything else in this workshop is recoverable. This isn't, so it gets its
+                own section.
+            </p>
+
+            <!-- The security variant of our callout component. Red, because
+                 the consequences here are different in kind from a tip. -->
+            <div class="callout callout--security">
+                <span class="callout-title">Never commit a password, API key or token</span>
+                Once you push a secret to GitHub, treat it as public <strong>permanently</strong>.
+                Deleting the file in a later commit does not help — Git keeps every previous
+                version, and anyone can read it out of the history. Automated bots scan public
+                repositories for leaked keys and find them within minutes.
+            </div>
+
+            <p>This is what <code>.gitignore</code> is for. The pattern this repo uses:</p>
+            <ul class="content-list">
+                <li>
+                    <code>.env</code> holds your real values. It's listed in
+                    <code>.gitignore</code>, so Git ignores it completely.
+                </li>
+                <li>
+                    <code>.env.example</code> holds fake placeholders. It <em>is</em>
+                    committed, so teammates can see which values they need to fill in.
+                </li>
+            </ul>
+            <p class="note">
+                Open both files in this repo and compare them — they're commented to explain
+                every line.
+            </p>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">If it happens anyway</span>
+                Change the secret immediately — regenerate the key, reset the password — then
+                tell whoever runs the repo. Nobody will be annoyed with you. This is exactly
+                why the convention exists, and it's a much better lesson to learn on a
+                practice repo than a client one.
+            </div>
+        </section>
+
+        <!-- ---------- Version control explained ---------- -->
+        <section aria-labelledby="vc-heading">
+            <h2 id="vc-heading">Version Control, Without the Jargon</h2>
+            <p>
+                You already understand version control. You've just done it by hand:
+            </p>
+<pre><code>proposal.docx
+proposal-v2.docx
+proposal-v2-FINAL.docx
+proposal-v2-FINAL-actually-final.docx
+proposal-v2-FINAL-clients-edits-JAN.docx</code></pre>
+            <p class="note">
+                That's version control — badly. You can't tell what changed between any two
+                files, who changed it, or why. Merging two people's edits means reading both
+                side by side and hoping.
+            </p>
+            <p>
+                Git does the same job properly. One file, with every previous version kept
+                alongside a note on what changed and who changed it. Two people can edit the
+                same document and Git combines the results.
+            </p>
+
+            <h3>The five words that matter</h3>
+            <ul class="content-list">
+                <li><strong>Repository</strong> — a project folder that remembers its own history</li>
+                <li><strong>Commit</strong> — a save point with a note attached; nothing is ever overwritten</li>
+                <li><strong>Branch</strong> — your own copy to experiment in, safely</li>
+                <li><strong>Push / Pull</strong> — upload your work / download everyone else's</li>
+                <li><strong>Pull request</strong> — "here's my change, please review it"</li>
+            </ul>
+        </section>
+
+        <!-- ---------- The workflow ---------- -->
+        <section aria-labelledby="workflow-heading">
+            <h2 id="workflow-heading">The Workflow You'll Practise</h2>
+            <p>Every professional software team, in some variation, does this:</p>
+<pre><code>Clone → Branch → Edit → Commit → Push → Pull Request → Review → Merge</code></pre>
+
+            <h3>What each step is actually for</h3>
+            <ol class="steps">
+                <li>
+                    <strong>Clone</strong> — copy the project to your computer.
+                    Once per project, not once per change.
+                </li>
+                <li>
+                    <strong>Branch</strong> — make a private workspace. The team's version
+                    stays untouched while you experiment.
+                </li>
+                <li>
+                    <strong>Edit</strong> — do the work. Normal file editing, nothing special.
+                </li>
+                <li>
+                    <strong>Commit</strong> — save a snapshot with a message. Commit often;
+                    small commits are easier to review and easier to undo.
+                </li>
+                <li>
+                    <strong>Push</strong> — upload your branch so others can see it.
+                </li>
+                <li>
+                    <strong>Pull request</strong> — formally propose your change and open it
+                    for discussion.
+                </li>
+                <li>
+                    <strong>Review</strong> — a teammate reads it and may ask questions.
+                    Not criticism; this is how mistakes get caught cheaply.
+                </li>
+                <li>
+                    <strong>Merge</strong> — your change joins the main project.
+                </li>
+            </ol>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">Why branch at all?</span>
+                So that unfinished work is never in everyone's way. You could commit
+                straight to <code>main</code> — and on a solo project people often do — but
+                on a team it means your half-finished edit is instantly everyone's problem.
+            </div>
+        </section>
+
+        <!-- ---------- Writing commit messages ---------- -->
+        <section aria-labelledby="commits-heading">
+            <h2 id="commits-heading">Writing a Commit Message People Thank You For</h2>
+            <p>
+                Finish this sentence: <em>"If applied, this commit will…"</em>
+            </p>
+            <ul class="content-list">
+                <li><code>Add Jane Smith to team page</code> — clear, specific</li>
+                <li><code>Fix broken GitHub link in footer</code> — says what and where</li>
+                <li><code>Explain token setup in README</code> — obvious why it exists</li>
+            </ul>
+            <p class="note">Compare those with:</p>
+            <ul class="content-list">
+                <li><code>update</code> — update what?</li>
+                <li><code>fixed stuff</code> — which stuff?</li>
+                <li><code>asdfgh</code> — we've all done it. Try not to.</li>
+            </ul>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">Who is this for?</span>
+                Whoever has to work out, six months from now, why a line changed. Often that
+                person is you, and you will not remember.
+            </div>
+        </section>
+
+        <!-- =================================================================
+             HOW TO CONTRIBUTE — same block as the other pages
+             ================================================================= -->
+        <section class="contribute" aria-labelledby="contribute-heading">
+            <h2 id="contribute-heading">How to Contribute</h2>
+            <p>
+                Reading about Git doesn't teach Git. Doing it once does. The
+                <a href="team.html">Team page</a> is built for exactly this — add yourself
+                and you'll have completed the full loop.
+            </p>
+<pre><code>git clone https://github.com/RCNile/AI-Academy-Using-Github.git
+cd AI-Academy-Using-Github
+git checkout -b feature/add-your-name
+
+# edit team.html, save it, then:
+git add team.html
+git commit -m "Add your name to team page"
+git push origin feature/add-your-name</code></pre>
+
+            <div class="btn-row">
+                <a class="btn" href="team.html">Add yourself to the team</a>
+                <a class="btn btn--secondary"
+                   href="https://github.com/RCNile/AI-Academy-Using-Github#readme"
+                   target="_blank" rel="noopener">Read the full guide</a>
+            </div>
+        </section>
+
+        <!-- ---------- Further reading ---------- -->
+        <section aria-labelledby="resources-heading">
+            <h2 id="resources-heading">Where to Go Next</h2>
+            <ul class="content-list">
+                <li>
+                    <a href="https://docs.github.com" target="_blank" rel="noopener">GitHub Docs</a>
+                    — official and genuinely well written
+                </li>
+                <li>
+                    <a href="https://ohshitgit.com/" target="_blank" rel="noopener">Oh Sh*t, Git!?!</a>
+                    — how to undo almost anything. Bookmark this one.
+                </li>
+                <li>
+                    <a href="https://cbea.ms/git-commit/" target="_blank" rel="noopener">How to Write a Git Commit Message</a>
+                    — the definitive short essay
+                </li>
+                <li>
+                    <a href="https://learngitbranching.js.org/" target="_blank" rel="noopener">Learn Git Branching</a>
+                    — visual, interactive, no setup needed
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Nile AI Academy. Learning GitHub together.</p>
+        <p>
+            <!-- See index.html for why the hidden "(opens in a new tab)" is here. -->
+            <a href="https://github.com/RCNile/AI-Academy-Using-Github"
+               target="_blank" rel="noopener">
+                View this project on GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+            </a>
+        </p>
+        <p class="footer-note">
+            This is a teaching example, not a production website.
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1115 @@
+/* ==========================================================================
+   styles.css — all the styling for the Nile Demo Portfolio
+   ==========================================================================
+
+   WHAT THIS FILE IS
+   One stylesheet, shared by index.html, about.html and team.html. All three
+   pages link to it in their <head>. Change a colour here and it updates
+   everywhere — that's the whole point of a shared stylesheet.
+
+   HOW IT'S ORGANISED
+     1.  Custom properties (variables)   <-- change colours and fonts HERE
+     2.  Reset and base
+     3.  Accessibility helpers
+     4.  Header and navigation
+     5.  Layout
+     6.  Typography
+     7.  Callouts
+     8.  Feature grid
+     9.  Team grid
+    10.  Forms
+    11.  Buttons
+    12.  Contribute block
+    13.  Footer
+    14.  Responsive
+    15.  Motion preferences
+    16.  Print
+
+   A NOTE ON ACCESSIBILITY
+   Every text/background pair here has been checked against WCAG AA, which
+   requires a contrast ratio of at least 4.5:1 for normal text. This isn't
+   box-ticking — it's whether someone can actually read your work on a laptop
+   in bright sunlight. Ratios are noted next to the colours below.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. CUSTOM PROPERTIES (CSS VARIABLES)
+   ==========================================================================
+   Defined once, used everywhere. To rebrand this entire site, edit these
+   values and nothing else.
+
+   Syntax: declare as --name, use as var(--name).
+   ========================================================================== */
+
+:root {
+    /* --- Brand colours --- */
+    --color-primary: #1e3c72;        /* Deep navy.  10.4:1 on white — AAA */
+    --color-primary-light: #2a5298;  /* Mid blue.    7.5:1 on white — AAA */
+
+    /* --- Text --- */
+    --color-text: #333333;           /* Body text.  11.5:1 on page bg — AAA */
+    --color-text-muted: #595959;     /* Secondary.   6.5:1 on cards  — AA   */
+    --color-text-hint: #6b6b6b;      /* Hints.       5.1:1 on cards  — AA
+                                        Was #999 (2.7:1), which failed AA.
+                                        Light grey looks tidy and excludes
+                                        people. This is the fix. */
+    --color-text-inverse: #ffffff;
+
+    /* --- Surfaces --- */
+    --color-bg: #f4f4f4;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f9f9f9;
+    --color-border: #dddddd;
+
+    /* --- Footer (dark background, so links must be light) --- */
+    --color-footer-bg: #333333;
+    --color-footer-link: #8ab4f8;    /* 6.0:1 on the footer — AA.
+                                        The original #2a5298 gave 1.3:1:
+                                        dark blue on dark grey, effectively
+                                        invisible. */
+
+    /* --- Callout colours (dark text on a light tint = always readable) --- */
+    --color-tip-bg: #e8f4ea;
+    --color-tip-border: #2e7d4f;
+    --color-warn-bg: #fdf3e2;
+    --color-warn-border: #b46b00;
+    --color-danger-bg: #fdeaea;
+    --color-danger-border: #b3261e;
+
+    /* --- Typography ---
+       A "system font stack": use whatever the reader's OS provides. Fast,
+       familiar, and no external font to download. */
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Cascadia Code', Consolas, 'Courier New', monospace;
+
+    /* Never below 1rem (16px) for body text — smaller is a strain to read. */
+    --text-sm: 0.9375rem;   /* 15px — captions and hints only */
+    --text-base: 1.0625rem; /* 17px — body */
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.5rem;
+
+    /* --- Spacing, on a consistent scale --- */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+
+    /* --- Shape and depth --- */
+    --radius: 8px;
+    --radius-sm: 4px;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    /* --- Motion. One value keeps every transition feeling consistent. --- */
+    --transition: 200ms ease;
+
+    --max-width: 1200px;
+}
+
+
+/* ==========================================================================
+   2. RESET AND BASE
+   ==========================================================================
+   Browsers apply their own default margins and padding, and they don't all
+   agree. Zeroing them out first means we start from a predictable place.
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;  /* Width includes padding — far easier to reason about */
+}
+
+html {
+    /* Anchor links (#section) glide instead of jumping. */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;        /* Generous spacing — the single biggest
+                                readability win available in CSS */
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+
+/* ==========================================================================
+   3. ACCESSIBILITY HELPERS
+   ==========================================================================
+   Not decoration. These are what make the site usable without a mouse, or
+   with a screen reader.
+   ========================================================================== */
+
+/* Visible only to screen readers. Use for labels that would be redundant
+   on screen but are needed for someone listening. */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* "Skip to main content" — hidden until focused with the Tab key. Lets
+   keyboard users jump past the navigation instead of tabbing through it on
+   every single page. */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--space-sm);
+    z-index: 100;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font-weight: bold;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    transition: top var(--transition);
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* A clear, consistent focus ring everywhere.
+   NEVER write `outline: none` without providing a replacement — it makes the
+   site unusable for anyone navigating by keyboard. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--color-primary-light);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+
+/* ==========================================================================
+   4. HEADER AND NAVIGATION
+   ========================================================================== */
+
+/* Marks the whole project as a teaching exercise. Sits above the header so
+   nobody mistakes this for a real production site. */
+.learning-banner {
+    background: var(--color-warn-bg);
+    border-bottom: 2px solid var(--color-warn-border);
+    padding: var(--space-xs) var(--space-sm);
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+}
+
+.learning-banner strong {
+    color: var(--color-warn-border);
+}
+
+header {
+    background: linear-gradient(135deg,
+                var(--color-primary) 0%,
+                var(--color-primary-light) 100%);
+    color: var(--color-text-inverse);
+    padding: var(--space-lg);
+    text-align: center;
+}
+
+header h1 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-xs);
+    line-height: 1.2;  /* Tighter than body text — large type needs less air */
+}
+
+header p {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-sm);
+    opacity: 0.95;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;      /* Wrap onto a second line rather than overflow */
+    gap: var(--space-lg);
+    margin-top: var(--space-sm);
+}
+
+nav a {
+    color: var(--color-text-inverse);
+    text-decoration: none;
+    font-weight: bold;
+    padding: var(--space-xs) 0;
+    border-bottom: 2px solid transparent;  /* Reserved now so hover doesn't
+                                              shift the layout */
+    transition: border-color var(--transition), opacity var(--transition);
+}
+
+nav a:hover {
+    opacity: 0.85;
+    border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+/* The page you're currently on.
+   aria-current="page" is real information for screen readers, not just a
+   styling hook — so we style the accessible attribute directly rather than
+   inventing a separate .active class. */
+nav a[aria-current="page"] {
+    border-bottom-color: var(--color-text-inverse);
+}
+
+
+/* ==========================================================================
+   5. LAYOUT
+   ========================================================================== */
+
+main {
+    max-width: var(--max-width);
+    margin: var(--space-lg) auto;
+    padding: 0 var(--space-lg);
+}
+
+section {
+    background: var(--color-surface);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+
+/* ==========================================================================
+   6. TYPOGRAPHY
+   ========================================================================== */
+
+h2 {
+    color: var(--color-primary);
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-2xl);
+    line-height: 1.25;
+}
+
+h3 {
+    color: var(--color-primary-light);
+    margin-bottom: var(--space-xs);
+    font-size: var(--text-lg);
+}
+
+p + p {
+    margin-top: var(--space-sm);  /* Space between paragraphs, but not before
+                                     the first one */
+}
+
+/* Indented lists used across the About and Team pages. */
+.content-list {
+    margin-left: var(--space-lg);
+    margin-top: var(--space-sm);
+}
+
+.content-list li {
+    margin-bottom: var(--space-xs);
+}
+
+/* A closing remark below a list or section. */
+.note {
+    margin-top: var(--space-sm);
+}
+
+/* Numbered instructions with room to breathe — for steps people follow
+   while typing, where cramped text causes mistakes. */
+.steps {
+    margin-left: var(--space-lg);
+    margin-top: var(--space-sm);
+}
+
+.steps li {
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-xs);
+}
+
+/* The opening section of a page. Slightly larger text to draw the eye in —
+   the only place we deviate from the base body size. */
+.hero > p:first-of-type {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+}
+
+/* Inline code — a command or filename inside a sentence. */
+code {
+    background: #f0f0f0;
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9em;   /* em, not rem: scales with its surrounding text */
+    color: #b3246b;     /* 5.9:1 on the code background — AA */
+}
+
+/* Block code — a whole command or snippet on its own. */
+pre {
+    background: #2d2d2d;
+    color: #f8f8f2;     /* 13.1:1 — AAA */
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    overflow-x: auto;   /* Long lines scroll inside the box instead of
+                           stretching the page sideways */
+    font-size: var(--text-sm);
+}
+
+/* Reset inline-code styling when it sits inside a <pre>. */
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
+
+
+/* ==========================================================================
+   7. CALLOUTS
+   ==========================================================================
+   Coloured boxes for tips, warnings and security notes.
+
+   Accessibility rule: colour must never be the ONLY signal, because roughly
+   1 in 12 men has some form of colour blindness. Each callout also carries a
+   text label, so the meaning survives without colour.
+   ========================================================================== */
+
+.callout {
+    padding: var(--space-sm) var(--space-md);
+    margin: var(--space-sm) 0;
+    border-left: 4px solid var(--color-primary-light);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-alt);
+}
+
+.callout-title {
+    display: block;
+    font-weight: bold;
+    margin-bottom: var(--space-xs);
+}
+
+.callout--tip {
+    background: var(--color-tip-bg);
+    border-left-color: var(--color-tip-border);
+}
+
+.callout--tip .callout-title {
+    color: var(--color-tip-border);
+}
+
+.callout--warning {
+    background: var(--color-warn-bg);
+    border-left-color: var(--color-warn-border);
+}
+
+.callout--warning .callout-title {
+    color: var(--color-warn-border);
+}
+
+.callout--security {
+    background: var(--color-danger-bg);
+    border-left-color: var(--color-danger-border);
+}
+
+.callout--security .callout-title {
+    color: var(--color-danger-border);
+}
+
+
+/* ==========================================================================
+   8. FEATURE GRID
+   ==========================================================================
+   auto-fit + minmax is a responsive grid with no media query: fit as many
+   300px-or-wider columns as will comfortably fit, then wrap. One line of CSS
+   replacing what used to take a lot of JavaScript.
+   ========================================================================== */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-sm);
+}
+
+.feature {
+    padding: var(--space-md);
+    border-left: 4px solid var(--color-primary-light);
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.feature:hover {
+    transform: translateY(-2px);   /* Lifts very slightly — enough to feel
+                                      responsive, not enough to distract */
+    box-shadow: var(--shadow-hover);
+}
+
+/* Cards that open a documentation modal.
+   The cursor is the affordance: it tells you the whole card is clickable
+   before you click it. */
+.feature[data-modal] {
+    cursor: pointer;
+}
+
+.feature[data-modal]:hover {
+    border-left-color: var(--color-primary);
+}
+
+/* The "Read more" control.
+   Styled as a link rather than a button, because the whole card is already
+   the click target — a second heavy button would imply two separate actions.
+   It stays a real <button> in the HTML so it's keyboard-focusable and
+   announced correctly; only its appearance is link-like. */
+.feature-btn {
+    display: inline-block;
+    margin-top: var(--space-xs);
+    padding: 0;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: bold;
+    color: var(--color-primary-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* An arrow that nudges right on hover.
+   Added via CSS rather than in the HTML because it's decoration — this way it
+   never reaches a screen reader, and there's no aria-hidden to remember. */
+.feature-btn::after {
+    content: " →";
+    display: inline-block;
+    transition: transform var(--transition);
+}
+
+.feature[data-modal]:hover .feature-btn::after {
+    transform: translateX(3px);
+}
+
+
+/* ==========================================================================
+   8b. DOCUMENTATION MODALS
+   ==========================================================================
+   Styling for the native <dialog> elements on the homepage.
+
+   Worth knowing: a <dialog> is display:none until it's opened, and the
+   browser handles that itself. We never write display:none — we only say what
+   it looks like once it IS open, via the [open] attribute the browser adds.
+   ========================================================================== */
+
+.doc-modal {
+    /* min() picks whichever is smaller: comfortable on a desktop, and never
+       wider than the screen on a phone. */
+    width: min(46rem, calc(100vw - 2rem));
+    max-height: min(85vh, 46rem);
+    padding: 0;                    /* Padding goes on the inner sections, so
+                                      the sticky header sits flush */
+    border: none;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* The browser adds [open] when showModal() is called. Flex column so the
+   middle section can scroll while the header and footer stay put. */
+.doc-modal[open] {
+    display: flex;
+    flex-direction: column;
+    animation: modal-appear 200ms ease;
+}
+
+@keyframes modal-appear {
+    from {
+        opacity: 0;
+        transform: translateY(0.5rem) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ::backdrop is the dimmed area behind an open modal. It's a real pseudo-
+   element the browser provides — no overlay div required. */
+.doc-modal::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.modal-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.modal-head h2 {
+    margin: 0;
+    font-size: var(--text-xl);
+}
+
+.modal-close {
+    flex-shrink: 0;      /* Never let a long title squash the close button */
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+}
+
+.modal-close:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-text);
+}
+
+/* The scrollable middle. overflow-y:auto means a long article scrolls INSIDE
+   the modal, rather than making the modal taller than the screen. */
+.modal-body {
+    padding: var(--space-md) var(--space-lg);
+    overflow-y: auto;
+}
+
+.modal-body h3 {
+    margin-top: var(--space-md);
+    font-size: var(--text-lg);
+}
+
+/* No top margin on the first heading — it would double up with the
+   container's own padding. */
+.modal-body h3:first-child {
+    margin-top: 0;
+}
+
+.modal-body pre {
+    margin-top: var(--space-xs);
+}
+
+.modal-body .callout {
+    margin: var(--space-md) 0;
+}
+
+/* A code block nested inside a callout — keep it readable against the tint. */
+.modal-body .callout pre {
+    margin-top: var(--space-xs);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+    padding: var(--space-sm) var(--space-lg) var(--space-md);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface-alt);
+}
+
+/* <form method="dialog"> is our close mechanism. It's a layout wrapper only,
+   so stop it introducing spacing of its own. */
+.modal-foot form {
+    display: contents;
+}
+
+
+/* ==========================================================================
+   9. TEAM GRID
+   ==========================================================================
+   These rules used to live in a <style> block inside team.html. Moved here so
+   all styling lives in one place — which is the point of a stylesheet, and
+   the habit worth copying.
+   ========================================================================== */
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.team-member {
+    background: var(--color-surface-alt);
+    padding: var(--space-md);
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.team-member:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.team-member h3 {
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.team-member p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+    font-size: var(--text-sm);
+}
+
+.team-member a {
+    display: inline-block;
+    margin-top: var(--space-xs);
+    color: var(--color-primary-light);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.team-member a:hover {
+    text-decoration: underline;
+}
+
+/* Placeholder cards waiting for a participant to claim them. */
+.team-member--placeholder {
+    border-style: dashed;
+    border-width: 2px;
+    background: var(--color-surface);
+}
+
+.hint {
+    font-size: var(--text-sm);
+    color: var(--color-text-hint);
+}
+
+/* The role line under someone's name. */
+.team-role {
+    font-weight: bold;
+    color: var(--color-primary-light) !important;
+}
+
+
+/* ==========================================================================
+   10. FORMS
+   ==========================================================================
+   Every input has a real <label> in the HTML. Labels aren't optional
+   decoration: clicking one focuses its field, and screen readers use them to
+   announce what the field is for. Placeholder text is NOT a substitute — it
+   disappears the moment you start typing.
+   ========================================================================== */
+
+.snippet-form {
+    margin-top: var(--space-md);
+}
+
+.form-field {
+    margin-bottom: var(--space-md);
+}
+
+.form-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: var(--space-xs);
+    color: var(--color-primary);
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: var(--space-xs) var(--space-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-base);   /* 16px minimum stops iOS Safari from
+                                      zooming in when you tap a field */
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition);
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    border-color: var(--color-primary-light);
+}
+
+/* Guidance under a field. Linked from the input with aria-describedby so a
+   screen reader reads it out as part of the field. */
+.form-help {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-hint);
+}
+
+/* Where the generated HTML snippet appears. */
+.snippet-output {
+    margin-top: var(--space-md);
+}
+
+.snippet-output pre {
+    white-space: pre-wrap;   /* Wrap long lines instead of scrolling —
+                                easier to select and copy by hand */
+    word-break: break-word;
+}
+
+
+/* ==========================================================================
+   11. BUTTONS
+   ========================================================================== */
+
+.btn {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: bold;
+    color: var(--color-text-inverse);
+    background: var(--color-primary-light);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.btn:hover {
+    background: var(--color-primary);
+}
+
+.btn:active {
+    transform: translateY(1px);  /* Presses down — small tactile confirmation
+                                    that the click registered */
+}
+
+.btn--secondary {
+    color: var(--color-primary);
+    background: transparent;
+    border-color: var(--color-primary-light);
+}
+
+.btn--secondary:hover {
+    background: var(--color-surface-alt);
+}
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+}
+
+
+/* ==========================================================================
+   12. CONTRIBUTE BLOCK
+   ==========================================================================
+   The "how to contribute" panel that appears on every page. Deliberately
+   styled to stand out — it's the main call to action of the whole project.
+   ========================================================================== */
+
+.contribute {
+    background: linear-gradient(135deg,
+                var(--color-primary) 0%,
+                var(--color-primary-light) 100%);
+    color: var(--color-text-inverse);
+}
+
+.contribute h2 {
+    color: var(--color-text-inverse);
+}
+
+.contribute a {
+    color: var(--color-footer-link);
+    font-weight: bold;
+}
+
+.contribute pre {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contribute code {
+    background: rgba(0, 0, 0, 0.3);
+    color: #ffe08a;   /* 9.8:1 on the gradient — AAA */
+}
+
+.contribute .btn {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    margin-top: var(--space-sm);
+}
+
+.contribute .btn:hover {
+    background: var(--color-surface-alt);
+}
+
+/* The outline button needs inverting on the dark gradient — the default
+   version uses a dark border and dark text, which would vanish here. */
+.contribute .btn--secondary {
+    background: transparent;
+    color: var(--color-text-inverse);
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.contribute .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-text-inverse);
+}
+
+/* Keyboard keys, e.g. <kbd>Ctrl</kbd>. Styled to look like a physical key. */
+kbd {
+    display: inline-block;
+    padding: 0.1em 0.4em;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--color-text);
+    background: #f0f0f0;
+    border: 1px solid var(--color-border);
+    border-bottom-width: 2px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+
+footer {
+    background: var(--color-footer-bg);
+    color: var(--color-text-inverse);
+    text-align: center;
+    padding: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+footer p + p {
+    margin-top: var(--space-xs);
+}
+
+footer a {
+    color: var(--color-footer-link);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-note {
+    font-size: var(--text-sm);
+    opacity: 0.85;
+    margin-top: var(--space-sm);
+}
+
+
+/* ==========================================================================
+   14. RESPONSIVE
+   ==========================================================================
+   The layout above already works on narrow screens (grids wrap on their own).
+   These media queries just refine the details.
+
+   Test this yourself: press F12, then click the phone icon.
+   ========================================================================== */
+
+/* Tablets and below */
+@media (max-width: 768px) {
+    :root {
+        /* Shrink the largest headings only. Body text stays put — it was
+           already at a comfortable minimum. */
+        --text-3xl: 1.875rem;
+        --text-2xl: 1.5rem;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .feature-grid,
+    .team-grid {
+        grid-template-columns: 1fr;   /* Single column — anything narrower
+                                         squeezes text too far */
+    }
+
+    main {
+        padding: 0 var(--space-sm);
+    }
+
+    section {
+        padding: var(--space-md);
+    }
+
+    /* Modals go nearly full-screen on a small display — a floating panel with
+       margins all round wastes space you don't have. */
+    .doc-modal {
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .modal-head,
+    .modal-body,
+    .modal-foot {
+        padding-left: var(--space-md);
+        padding-right: var(--space-md);
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    header {
+        padding: var(--space-md) var(--space-sm);
+    }
+
+    .btn {
+        width: 100%;          /* Full-width buttons are far easier to tap */
+        text-align: center;
+    }
+
+    .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+
+/* ==========================================================================
+   15. MOTION PREFERENCES
+   ==========================================================================
+   Some people get motion sickness from animation, and set a system-level
+   preference to reduce it. Honouring that is two lines of CSS and it is
+   simply the right thing to do.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ==========================================================================
+   16. PRINT
+   ==========================================================================
+   What happens when someone prints a page or saves it as PDF. Worth doing for
+   a workshop — participants often print the instructions to follow along
+   away from the screen.
+
+   Preview it: Ctrl/Cmd + P.
+   ========================================================================== */
+
+@media print {
+    /* Ink is expensive and gradients print as muddy grey. Go flat. */
+    body {
+        background: #ffffff;
+        color: #000000;
+        font-size: 11pt;   /* Physical units (pt) make sense on paper */
+    }
+
+    header {
+        background: none !important;
+        color: #000000;
+        border-bottom: 2pt solid #000000;
+        padding-bottom: var(--space-xs);
+    }
+
+    header h1 {
+        color: #000000;
+    }
+
+    /* Navigation, buttons and forms are useless on paper. */
+    nav,
+    .btn,
+    .btn-row,
+    .skip-link,
+    .snippet-form,
+    .learning-banner,
+    .feature-btn {
+        display: none !important;
+    }
+
+    /* Modals are interactive overlays — never print them, open or not.
+       Without this rule an open dialog prints as a page of its own. */
+    .doc-modal,
+    .doc-modal[open] {
+        display: none !important;
+    }
+
+    section {
+        box-shadow: none;
+        border: 1pt solid #cccccc;
+        /* Don't split a card across a page break if it can be avoided. */
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: var(--space-sm);
+    }
+
+    h2 {
+        color: #000000;
+        /* Never leave a heading stranded at the bottom of a page. */
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    pre {
+        background: #f5f5f5 !important;
+        color: #000000 !important;
+        border: 1pt solid #cccccc;
+        white-space: pre-wrap;
+    }
+
+    code {
+        background: #f5f5f5;
+        color: #000000;
+    }
+
+    /* A printed page can't be clicked, so print the destination after each
+       link. attr() pulls the value straight out of the HTML attribute. */
+    main a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+        color: #555555;
+        word-break: break-all;
+    }
+
+    .contribute {
+        background: none !important;
+        color: #000000;
+        border: 2pt solid #000000;
+    }
+
+    .contribute h2,
+    .contribute a {
+        color: #000000;
+    }
+
+    footer {
+        background: none;
+        color: #000000;
+        border-top: 1pt solid #000000;
+        margin-top: var(--space-sm);
+    }
+
+    footer a {
+        color: #000000;
+    }
+}

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<!--
+    ===========================================================================
+    team.html — your practice ground
+    ===========================================================================
+
+    THIS IS THE PAGE YOU'RE MEANT TO EDIT.
+
+    Your goal: get your own name onto this page via a pull request. Doing that
+    once takes you through every Git idea that matters.
+
+    There are two routes, and they end in exactly the same place:
+
+      Route A — Use the form below. Fill in your details, click the button, and
+                it writes the HTML for you to paste in. Start here if HTML is
+                unfamiliar.
+
+      Route B — Copy an existing card in the markup by hand and edit the text.
+                Slightly more fiddly, and you'll learn more.
+
+    Either way you still have to commit, push and open a pull request — the
+    form doesn't do that part. That's the bit worth practising.
+    ===========================================================================
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Workshop participants on the Nile AI Academy GitHub project. Add yourself with a pull request — the form generates the code for you.">
+    <title>Team · Nile Demo Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <div class="learning-banner">
+        <strong>Learning project</strong> — a practice repo for the Nile AI Academy
+        GitHub workshop. Nothing here is a real product, so you cannot break anything.
+    </div>
+
+    <header>
+        <h1>The Team</h1>
+        <p>Add yourself — that's the exercise</p>
+
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="team.html" aria-current="page">Team</a>
+        </nav>
+    </header>
+
+    <main id="main">
+
+        <!-- =================================================================
+             STEP 1 — THE GENERATOR FORM
+             ================================================================= -->
+        <section aria-labelledby="generator-heading">
+            <h2 id="generator-heading">Step 1 · Generate Your Card</h2>
+            <p>
+                Fill this in and click the button. It writes the HTML for your team card,
+                ready to paste into this file.
+            </p>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">Why doesn't this just submit?</span>
+                Because there's nothing to submit <em>to</em>. This site is only HTML and
+                CSS — files a browser opens directly. There's no server running behind it
+                to receive your details and no database to store them.
+                <br><br>
+                That's not a limitation we forgot to fix; it's what "static site" means, and
+                it's how GitHub Pages works. Saving your data would require a backend, which
+                is a whole other workshop. Here, <strong>Git is the storage</strong> — you
+                save your details by committing them, which is exactly the skill we're after.
+            </div>
+
+            <!--
+                A REAL FORM, WITH REAL LABELS
+
+                Every input has a <label for="..."> matching the input's id.
+                This matters more than it looks:
+                  - clicking the label focuses the field
+                  - screen readers announce the label when you reach the field
+                  - it roughly doubles the tap target on a phone
+
+                Placeholder text is NOT a substitute for a label. Placeholders
+                vanish the moment you start typing, and are invisible to some
+                assistive technology.
+            -->
+            <form class="snippet-form" id="card-form">
+                <div class="form-field">
+                    <label for="member-name">Your name</label>
+                    <input type="text"
+                           id="member-name"
+                           name="name"
+                           required
+                           autocomplete="name"
+                           placeholder="Jane Smith"
+                           aria-describedby="name-help">
+                    <!-- aria-describedby links the help text to the input, so a
+                         screen reader reads it out as part of the field. -->
+                    <span class="form-help" id="name-help">
+                        However you'd like to be credited.
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label for="member-role">Your role</label>
+                    <!-- A <select> when the options are known and few. Faster than
+                         typing, and it can't be spelled wrong. -->
+                    <select id="member-role" name="role" required>
+                        <option value="">Choose one…</option>
+                        <option value="Service Designer">Service Designer</option>
+                        <option value="Strategist">Strategist</option>
+                        <option value="Researcher">Researcher</option>
+                        <option value="Product Manager">Product Manager</option>
+                        <option value="Developer">Developer</option>
+                        <option value="Workshop Participant">Workshop Participant</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="member-github">GitHub username <span class="hint">(optional)</span></label>
+                    <input type="text"
+                           id="member-github"
+                           name="github"
+                           placeholder="janesmith"
+                           aria-describedby="github-help">
+                    <span class="form-help" id="github-help">
+                        Just the username, not the full URL. Leave blank to skip the link.
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label for="member-fact">One thing you learned today <span class="hint">(optional)</span></label>
+                    <input type="text"
+                           id="member-fact"
+                           name="fact"
+                           placeholder="What a pull request actually is"
+                           aria-describedby="fact-help">
+                    <span class="form-help" id="fact-help">
+                        Keep it short — it appears on your card.
+                    </span>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" class="btn">Generate my HTML</button>
+                    <button type="reset" class="btn btn--secondary">Clear the form</button>
+                </div>
+            </form>
+
+            <!--
+                Where the generated snippet appears.
+
+                aria-live="polite" means: when this region changes, announce it
+                to screen readers — but wait until the user is idle rather than
+                interrupting them. Without it, someone using a screen reader
+                clicks the button and has no idea anything happened.
+
+                hidden until there's something to show.
+            -->
+            <div class="snippet-output" id="snippet-output" aria-live="polite" hidden>
+                <h3>Your card — copy this</h3>
+                <p class="hint">
+                    Paste it into <code>team.html</code>, just below the
+                    <code>&lt;div class="team-grid"&gt;</code> line.
+                </p>
+                <pre><code id="snippet-code"></code></pre>
+                <div class="btn-row">
+                    <button type="button" class="btn btn--secondary" id="copy-btn">
+                        Copy to clipboard
+                    </button>
+                    <span class="form-help" id="copy-status" role="status"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================
+             STEP 2 — THE GIT WORKFLOW
+             ================================================================= -->
+        <section aria-labelledby="workflow-heading">
+            <h2 id="workflow-heading">Step 2 · Get It Onto GitHub</h2>
+            <p>
+                This is the part that matters. Run each command on its own and read what it
+                prints back.
+            </p>
+
+            <ol class="steps">
+                <li>
+                    <strong>Get the project, if you haven't already</strong>
+<pre><code>git clone https://github.com/RCNile/AI-Academy-Using-Github.git
+cd AI-Academy-Using-Github</code></pre>
+                </li>
+
+                <li>
+                    <strong>Make your own branch.</strong> Put your name in it, so it's
+                    obvious whose branch it is.
+<pre><code>git checkout -b feature/add-jane-smith</code></pre>
+                    <span class="hint">
+                        <code>-b</code> means "create this branch and switch to it".
+                    </span>
+                </li>
+
+                <li>
+                    <strong>Open <code>team.html</code></strong> in your text editor, find
+                    <code>&lt;div class="team-grid"&gt;</code>, and paste your card in just
+                    after it. Save the file.
+                </li>
+
+                <li>
+                    <strong>Check your work in the browser.</strong> Open <code>team.html</code>
+                    and confirm your card looks right before you commit anything.
+                </li>
+
+                <li>
+                    <strong>See what Git noticed</strong>
+<pre><code>git status    # which files changed
+git diff      # exactly which lines changed</code></pre>
+                    <span class="hint">
+                        <code>git diff</code> is worth getting comfortable with — it's what
+                        reviewers read. Press <kbd>q</kbd> to exit.
+                    </span>
+                </li>
+
+                <li>
+                    <strong>Stage and commit</strong>
+<pre><code>git add team.html
+git commit -m "Add Jane Smith to team page"</code></pre>
+                    <span class="hint">
+                        Use your own name in the message. Finish the sentence
+                        "if applied, this commit will…".
+                    </span>
+                </li>
+
+                <li>
+                    <strong>Push your branch to GitHub</strong>
+<pre><code>git push origin feature/add-jane-smith</code></pre>
+                </li>
+
+                <li>
+                    <strong>Open the pull request.</strong> Git prints a link — open it,
+                    write a sentence about what you did, and click
+                    <strong>Create pull request</strong>.
+                </li>
+            </ol>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">That's the whole job</span>
+                You've just used the same workflow that ships production software. The
+                commands don't get more advanced than this — the rest is practice and
+                learning what to do when something goes wrong.
+            </div>
+        </section>
+
+        <!-- =================================================================
+             THE TEAM GRID — this is what you're editing
+             ================================================================= -->
+        <section aria-labelledby="members-heading">
+            <h2 id="members-heading">Workshop Participants</h2>
+            <p>
+                Everyone below got here through a pull request. Yours will join them.
+            </p>
+
+            <!--
+                ===============================================================
+                PASTE YOUR CARD JUST BELOW THIS COMMENT
+                ===============================================================
+
+                The pattern for one card:
+
+                    <div class="team-member">
+                        <h3>Your Name</h3>
+                        <p class="team-role">Your Role</p>
+                        <p>Nile AI Academy</p>
+                        <a href="https://github.com/USERNAME"
+                           target="_blank" rel="noopener">View profile</a>
+                    </div>
+
+                Copy an existing one and change the text — that's genuinely how
+                most web development works.
+
+                If two people paste in the same spot, Git will report a MERGE
+                CONFLICT. That's expected, it isn't breakage, and the README
+                explains how to resolve it. Hitting one is good practice.
+            -->
+            <div class="team-grid">
+
+                <div class="team-member">
+                    <h3>Roman Crooke</h3>
+                    <p class="team-role">Workshop Lead</p>
+                    <p>Nile AI Academy</p>
+                    <a href="https://github.com/RCNile" target="_blank" rel="noopener">
+                        View profile
+                    </a>
+                </div>
+
+                <!-- Placeholder cards. Replace one, or add your own alongside. -->
+                <div class="team-member team-member--placeholder">
+                    <h3><span aria-hidden="true">👤</span> Your Name Here</h3>
+                    <p class="team-role">Workshop Participant</p>
+                    <p>Nile AI Academy</p>
+                    <p class="hint"><em>Use the form above, then commit your change</em></p>
+                </div>
+
+                <div class="team-member team-member--placeholder">
+                    <h3><span aria-hidden="true">👤</span> Your Teammate</h3>
+                    <p class="team-role">Workshop Participant</p>
+                    <p>Nile AI Academy</p>
+                    <p class="hint"><em>Clone, branch, edit, commit, push, PR</em></p>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- =================================================================
+             HOW TO CONTRIBUTE — consistent with the other pages
+             ================================================================= -->
+        <section class="contribute" aria-labelledby="contribute-heading">
+            <h2 id="contribute-heading">Stuck on Something?</h2>
+            <p>
+                Every error you're likely to hit is written up in the README, in plain
+                English, with the fix. Authentication problems, merge conflicts, "not a git
+                repository", and how to start over cleanly.
+            </p>
+            <p class="note">
+                And when in doubt, run <code>git status</code>. It usually tells you exactly
+                what to do next.
+            </p>
+
+            <div class="btn-row">
+                <a class="btn"
+                   href="https://github.com/RCNile/AI-Academy-Using-Github#troubleshooting"
+                   target="_blank" rel="noopener">Read the troubleshooting guide</a>
+                <a class="btn btn--secondary"
+                   href="https://github.com/RCNile/AI-Academy-Using-Github/issues/new"
+                   target="_blank" rel="noopener">Open an issue</a>
+            </div>
+            <p class="note">
+                Opening an issue is itself worth practising — it's how you'd raise a problem
+                on any real project.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Nile AI Academy. Contributors welcome.</p>
+        <p>
+            <!-- See index.html for why the hidden "(opens in a new tab)" is here. -->
+            <a href="https://github.com/RCNile/AI-Academy-Using-Github"
+               target="_blank" rel="noopener">
+                View this project on GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+            </a>
+        </p>
+        <p class="footer-note">
+            This is a teaching example, not a production website.
+        </p>
+    </footer>
+
+    <!--
+        =======================================================================
+        JAVASCRIPT — the snippet generator
+        =======================================================================
+
+        The only JavaScript in this project. It exists for one job: turn the
+        form above into a block of HTML you can paste.
+
+        Why it's down here at the bottom: the browser reads the page top to
+        bottom, so by the time it reaches this point, every element the script
+        refers to already exists. Put it in the <head> instead and it would run
+        before the form existed, and fail.
+
+        No framework, no build step, no installing anything. Just a script tag.
+        It's more commented than a real project would be — that's deliberate.
+        =======================================================================
+    -->
+    <script>
+        // 'use strict' opts into stricter error checking. It turns silent
+        // mistakes (like a typo'd variable name) into visible errors.
+        'use strict';
+
+        // ------------------------------------------------------------------
+        // Grab the elements we need, once, up front.
+        // document.getElementById finds an element by its id attribute.
+        // ------------------------------------------------------------------
+        const form = document.getElementById('card-form');
+        const output = document.getElementById('snippet-output');
+        const codeEl = document.getElementById('snippet-code');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyStatus = document.getElementById('copy-status');
+
+        // ------------------------------------------------------------------
+        // escapeHtml — a small but genuinely important function.
+        //
+        // If someone types < or > into the form and we drop it straight into
+        // the page, the browser reads it as a TAG rather than as text. At best
+        // that produces broken output; in a real app it's how cross-site
+        // scripting attacks work.
+        //
+        // The rule: never trust input, always escape it before displaying it.
+        // Worth knowing even if you never write JavaScript again.
+        // ------------------------------------------------------------------
+        function escapeHtml(value) {
+            return value
+                .replace(/&/g, '&amp;')   // must be first, or it double-escapes
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // ------------------------------------------------------------------
+        // buildSnippet — assembles the HTML for one team card.
+        // Template literals (backticks) let us write multi-line strings and
+        // drop values in with ${...}.
+        // ------------------------------------------------------------------
+        function buildSnippet(name, role, github, fact) {
+            // Only include the optional lines if they were filled in.
+            const profileLink = github
+                ? `\n        <a href="https://github.com/${github}" target="_blank" rel="noopener">\n            View profile\n        </a>`
+                : '';
+
+            const factLine = fact
+                ? `\n        <p class="hint"><em>${fact}</em></p>`
+                : '';
+
+            return `<div class="team-member">
+        <h3>${name}</h3>
+        <p class="team-role">${role}</p>
+        <p>Nile AI Academy</p>${factLine}${profileLink}
+    </div>`;
+        }
+
+        // ------------------------------------------------------------------
+        // When the form is submitted.
+        //
+        // A form's default behaviour is to reload the page and send the data
+        // to a server. There's no server here, so we call preventDefault() to
+        // stop that, and handle it ourselves instead.
+        // ------------------------------------------------------------------
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // .trim() removes stray spaces at either end — people always
+            // leave a trailing space, and it's easier to strip it than to
+            // ask them not to.
+            const name = escapeHtml(document.getElementById('member-name').value.trim());
+            const role = escapeHtml(document.getElementById('member-role').value.trim());
+            const fact = escapeHtml(document.getElementById('member-fact').value.trim());
+
+            // The username goes into a URL, so strip anything that isn't a
+            // valid GitHub username character. Handles people pasting a full
+            // URL when we asked for just the username.
+            const githubRaw = document.getElementById('member-github').value.trim();
+            const github = githubRaw.replace(/^.*github\.com\//, '').replace(/[^A-Za-z0-9-]/g, '');
+
+            codeEl.textContent = buildSnippet(name, role, github, fact);
+            // textContent, not innerHTML: it renders the string as visible
+            // text rather than interpreting it as markup. That's what lets us
+            // display HTML on the page instead of running it.
+
+            output.hidden = false;
+            copyStatus.textContent = '';
+
+            // Scroll the result into view — on a phone it's otherwise below
+            // the fold and looks like nothing happened.
+            output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // Clear the generated snippet when the form is reset.
+        form.addEventListener('reset', function () {
+            output.hidden = true;
+            copyStatus.textContent = '';
+        });
+
+        // ------------------------------------------------------------------
+        // Copy to clipboard.
+        //
+        // The modern clipboard API needs a "secure context" — an https:// page.
+        // Opened straight off your disk as file://, it's often unavailable.
+        // So we try it, and fall back to selecting the text so the reader can
+        // press Ctrl+C themselves.
+        //
+        // Handling the case where a feature isn't available, rather than
+        // assuming it is, is most of what defensive coding means.
+        // ------------------------------------------------------------------
+        copyBtn.addEventListener('click', async function () {
+            const text = codeEl.textContent;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    copyStatus.textContent = 'Copied.';
+                    return;
+                } catch (error) {
+                    // Permission refused, or the browser blocked it. Fall
+                    // through to the manual path below.
+                }
+            }
+
+            // Fallback: select the text so Ctrl+C / Cmd+C works.
+            const range = document.createRange();
+            range.selectNodeContents(codeEl);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            copyStatus.textContent = 'Selected — press Ctrl+C (or Cmd+C) to copy.';
+        });
+    </script>
+</body>
+</html>

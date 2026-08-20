@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<!--
+    ===========================================================================
+    index.html — the homepage
+    ===========================================================================
+
+    WHY IS IT CALLED "index"?
+    Convention. When a web server is asked for a folder, it looks for a file
+    called index.html and serves that. It's the front door of any website.
+
+    HOW TO READ THIS FILE
+    HTML is made of "elements" wrapped in angle brackets. Most come in pairs:
+    <h1> opens a heading, </h1> closes it. The bit in between is the content.
+
+    You are currently reading a COMMENT — a note for humans that the browser
+    ignores completely. A comment opens with a less-than sign, an exclamation
+    mark and two dashes. It closes with two dashes and a greater-than sign.
+    This file has a lot of them, because it's a teaching example.
+
+    A REAL BUG THAT WAS HERE
+    This paragraph used to spell that closing sequence out literally, in the
+    middle of a sentence, to show you what it looked like.
+
+    That broke the page. The browser doesn't care that the marker was inside a
+    sentence — it saw the closing sequence, ended the comment right there, and
+    rendered everything after it as visible text at the top of the page.
+
+    Two things worth taking from that:
+      - A comment can never contain its own closing sequence. If you need to
+        write about it, describe it in words, as above.
+      - The bug was invisible in the code and obvious on the page. Always look
+        at the actual result, not just the file you edited. This one was spotted
+        by someone simply noticing odd text on screen.
+
+    TRY THIS
+    Right-click anywhere on the rendered page and choose "View Page Source".
+    You'll see exactly this file, comments and all. That's true of every
+    website you've ever used — the HTML is always readable.
+    ===========================================================================
+-->
+<html lang="en">
+<!--
+    lang="en" tells screen readers to use English pronunciation. One
+    attribute, genuinely important for anyone using assistive technology.
+-->
+<head>
+    <!--
+        <head> holds information ABOUT the page. None of it is visible on the
+        page itself — it's for the browser and for search engines.
+    -->
+    <meta charset="UTF-8">
+    <!-- charset must come first. It tells the browser how to read the
+         characters in this file, so accents and emoji display correctly. -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Without this line, phones pretend to be desktop monitors and render
+         everything tiny. This single tag is what makes a site mobile-friendly. -->
+
+    <meta name="description" content="A hands-on practice project for learning Git and GitHub, built for the Nile AI Academy workshop.">
+    <!-- The grey summary line under a search result. Aim for ~155 characters. -->
+
+    <title>Home · Nile Demo Portfolio</title>
+    <!-- Shows in the browser tab, and as the headline in search results. -->
+
+    <link rel="stylesheet" href="styles.css">
+    <!-- Pulls in our styling. All three pages link to this SAME file, so one
+         change updates every page. That's why we don't put styles directly
+         inside the HTML. -->
+</head>
+
+<body>
+    <!-- =====================================================================
+         SKIP LINK
+         Invisible until you press Tab. Lets keyboard and screen-reader users
+         jump straight to the content instead of tabbing through the nav on
+         every page. First thing in <body> so it's the first thing focused.
+         ===================================================================== -->
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- =====================================================================
+         LEARNING PROJECT BANNER
+         Makes it unmistakable that this is a teaching exercise and not a real
+         product. Repeated on all three pages.
+         ===================================================================== -->
+    <div class="learning-banner">
+        <strong>Learning project</strong> — a practice repo for the Nile AI Academy
+        GitHub workshop. Nothing here is a real product, so you cannot break anything.
+    </div>
+
+    <!-- =====================================================================
+         HEADER
+         <header> is a "semantic" element: it describes what the content IS,
+         not what it looks like. A <div> would render identically, but screen
+         readers and search engines understand <header>. Prefer semantic tags
+         wherever one fits.
+         ===================================================================== -->
+    <header>
+        <h1>Nile Demo Portfolio</h1>
+        <p>Learning GitHub, one commit at a time</p>
+
+        <!-- <nav> marks the main navigation. aria-label names it, which
+             matters when a page has more than one nav region. -->
+        <nav aria-label="Main navigation">
+            <!-- aria-current="page" marks the page you're on. It's announced
+                 by screen readers AND used by our CSS to draw the underline —
+                 one attribute doing both jobs. -->
+            <a href="index.html" aria-current="page">Home</a>
+            <a href="about.html">About</a>
+            <a href="team.html">Team</a>
+        </nav>
+    </header>
+
+    <!-- =====================================================================
+         MAIN CONTENT
+         <main> holds the unique content of this page. Exactly one per page.
+         The id="main" is the target of the skip link above.
+         ===================================================================== -->
+    <main id="main">
+
+        <!-- ---------- Welcome ---------- -->
+        <section class="hero" aria-labelledby="welcome-heading">
+            <!-- aria-labelledby points at the id of this section's heading, so
+                 assistive tech can announce which section you've entered. -->
+            <h2 id="welcome-heading">Welcome to the Workshop</h2>
+            <p>
+                This is a deliberately simple website. It exists so you can practise
+                the workflow that professional teams use to collaborate on code —
+                without any risk of breaking something real.
+            </p>
+            <p>
+                You do <strong>not</strong> need to be a developer. If you are a designer,
+                strategist or researcher who keeps getting sent GitHub links you can't do
+                anything with, this is for you.
+            </p>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">Where to start</span>
+                Head to the <a href="team.html">Team page</a> and add yourself. It's the
+                fastest way to complete the full loop: branch, edit, commit, push, pull request.
+            </div>
+        </section>
+
+        <!-- ---------- What you'll learn ---------- -->
+        <section aria-labelledby="learn-heading">
+            <h2 id="learn-heading">What You'll Learn</h2>
+            <p>Six ideas. Everything else in Git is a variation on these.</p>
+
+            <p class="hint">Click any card for the full explanation, commands and common mistakes.</p>
+
+            <div class="feature-grid">
+                <!--
+                    Each card repeats the same structure. Copying a block and
+                    editing the text is exactly how you'd add a seventh.
+
+                    THREE THINGS WORTH NOTICING:
+
+                    1. aria-hidden="true" on the emoji. Screen readers would
+                       otherwise announce "books emoji clone a repository",
+                       which is noise. The emoji is decoration, so we hide it
+                       from assistive tech while leaving it on screen.
+
+                    2. data-modal="..." holds the id of the dialog this card
+                       opens. A "data-" attribute is a place to stash your own
+                       information on an element — HTML ignores it, and our
+                       JavaScript reads it. That's how one short function
+                       handles all six cards instead of six copies.
+
+                    3. Each button says "Read more" followed by hidden text
+                       naming the topic. Six buttons all called just "Read
+                       more" is a genuine accessibility problem — screen
+                       reader users can list the buttons on a page, and six
+                       identical labels tell them nothing.
+                -->
+                <div class="feature" data-modal="modal-clone">
+                    <h3><span aria-hidden="true">📚</span> Clone a Repository</h3>
+                    <p>Download a copy of a project from GitHub onto your own computer.</p>
+                    <button type="button" class="feature-btn">
+                        Read more<span class="visually-hidden"> about cloning a repository</span>
+                    </button>
+                </div>
+
+                <div class="feature" data-modal="modal-branch">
+                    <h3><span aria-hidden="true">🌿</span> Create Branches</h3>
+                    <p>Work on your own copy, so you can't break what the team is using.</p>
+                    <button type="button" class="feature-btn">
+                        Read more<span class="visually-hidden"> about creating branches</span>
+                    </button>
+                </div>
+
+                <div class="feature" data-modal="modal-commit">
+                    <h3><span aria-hidden="true">📝</span> Commit Changes</h3>
+                    <p>Save a snapshot of your work with a note explaining what you did.</p>
+                    <button type="button" class="feature-btn">
+                        Read more<span class="visually-hidden"> about committing changes</span>
+                    </button>
+                </div>
+
+                <div class="feature" data-modal="modal-push">
+                    <h3><span aria-hidden="true">🚀</span> Push to GitHub</h3>
+                    <p>Upload your snapshots so the rest of the team can see them.</p>
+                    <button type="button" class="feature-btn">
+                        Read more<span class="visually-hidden"> about pushing to GitHub</span>
+                    </button>
+                </div>
+
+                <div class="feature" data-modal="modal-pr">
+                    <h3><span aria-hidden="true">🔀</span> Open Pull Requests</h3>
+                    <p>Propose your change and invite review before it becomes official.</p>
+                    <button type="button" class="feature-btn">
+                        Read more<span class="visually-hidden"> about pull requests</span>
+                    </button>
+                </div>
+
+                <div class="feature" data-modal="modal-merge">
+                    <h3><span aria-hidden="true">✅</span> Merge Code</h3>
+                    <p>Fold approved changes into the main project. Your work is in.</p>
+                    <button type="button" class="feature-btn">
+                        Read more<span class="visually-hidden"> about merging code</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================
+             HOW TO CONTRIBUTE
+             The main call to action, repeated on all three pages so it's never
+             more than one screen away.
+             ================================================================= -->
+        <section class="contribute" aria-labelledby="contribute-heading">
+            <h2 id="contribute-heading">How to Contribute</h2>
+            <p>
+                The whole loop, in six commands. Run them one at a time and read what
+                each one prints back — Git is unusually chatty, and it's usually telling
+                you something useful.
+            </p>
+
+            <!-- <pre> preserves whitespace exactly as typed. Essential for
+                 code, where indentation and line breaks carry meaning. -->
+<pre><code># 1. Download the project
+git clone https://github.com/RCNile/AI-Academy-Using-Github.git
+cd AI-Academy-Using-Github
+
+# 2. Make your own branch (put your name in it)
+git checkout -b feature/add-your-name
+
+# 3. Edit a file and save it, then check what changed
+git status
+
+# 4. Stage the file you want to save
+git add team.html
+
+# 5. Commit it, with a message describing what you did
+git commit -m "Add Jane Smith to team page"
+
+# 6. Upload your branch
+git push origin feature/add-your-name</code></pre>
+
+            <p class="note">
+                Git prints a link after step 6. Open it, write a sentence about what you
+                changed, and click <strong>Create pull request</strong>. That's the whole
+                workflow — the same one used on production software every day.
+            </p>
+
+            <div class="btn-row">
+                <a class="btn" href="team.html">Practise on the Team page</a>
+                <a class="btn btn--secondary"
+                   href="https://github.com/RCNile/AI-Academy-Using-Github#readme"
+                   target="_blank" rel="noopener">
+                    Read the full guide
+                </a>
+                <!--
+                    target="_blank" opens a new tab.
+                    rel="noopener" must accompany it: without it, the new page
+                    gets scripting access back to this one. It's a small
+                    security hole, and the fix is one attribute.
+                -->
+            </div>
+        </section>
+
+        <!-- ---------- Stuck? ---------- -->
+        <section aria-labelledby="stuck-heading">
+            <h2 id="stuck-heading">If You Get Stuck</h2>
+            <p>Two commands solve most confusion:</p>
+<pre><code>git status                        # What changed? Which branch am I on?
+git log --oneline --graph --all   # Show me the history</code></pre>
+            <p class="note">
+                <code>git status</code> usually suggests the exact command you need next.
+                Run it before anything else.
+            </p>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">You cannot break this</span>
+                Every version of every file is stored permanently, and you're working on
+                your own branch. Nothing you do here affects anyone else until a pull
+                request is reviewed and merged. Experiment freely.
+            </div>
+
+            <p class="note">
+                Full error-by-error troubleshooting lives in the
+                <a href="https://github.com/RCNile/AI-Academy-Using-Github#troubleshooting"
+                   target="_blank" rel="noopener">README</a>.
+            </p>
+        </section>
+    </main>
+
+    <!-- =====================================================================
+         FOOTER
+         ===================================================================== -->
+    <footer>
+        <p>&copy; 2026 Nile AI Academy. Made for learning, improved by collaboration.</p>
+        <p>
+            <a href="https://github.com/RCNile/AI-Academy-Using-Github"
+               target="_blank" rel="noopener">
+                View this project on GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+            </a>
+            <!--
+                A link that opens a new tab should say so. Sighted users get a
+                visual cue from the tab appearing; a screen reader user gets no
+                warning at all and can find themselves somewhere unexpected
+                with a back button that no longer works.
+
+                .visually-hidden puts the text in the accessibility tree while
+                keeping it off the screen. It's the correct tool for genuinely
+                useful context that would be redundant visually — and the
+                opposite of aria-hidden="true", which we used on the decorative
+                emoji further up this page.
+            -->
+        </p>
+        <p class="footer-note">
+            This is a teaching example, not a production website.
+        </p>
+    </footer>
+
+    <!-- =====================================================================
+         DOCUMENTATION MODALS
+         =====================================================================
+
+         One <dialog> per feature card. They live at the end of <body> by
+         convention — they're overlays, not part of the page flow, and keeping
+         them out of <main> stops them cluttering the document outline.
+
+         WHY <dialog> AND NOT A DIV?
+         <dialog> is a real HTML element, and calling .showModal() on it gets
+         you a surprising amount for free:
+             - focus moves into the dialog, and is TRAPPED there while open
+             - Escape closes it
+             - the rest of the page becomes inert (unclickable, unfocusable)
+             - focus returns to whatever opened it, on close
+             - ::backdrop styles the dimmed area behind it
+
+         Hand-built modals usually get the focus handling wrong, which makes
+         them unusable with a keyboard or screen reader. Using the built-in
+         element is both less code and more accessible — that trade is
+         usually available, and usually worth taking.
+
+         Each dialog is hidden by default. The browser does that; we never
+         write display:none ourselves.
+         ===================================================================== -->
+
+    <!-- ---------- Clone ---------- -->
+    <dialog class="doc-modal" id="modal-clone" aria-labelledby="modal-clone-title">
+        <div class="modal-head">
+            <h2 id="modal-clone-title"><span aria-hidden="true">📚</span> Clone a Repository</h2>
+            <!--
+                A <button> inside <form method="dialog"> closes the dialog with
+                no JavaScript at all. A genuinely useful bit of built-in HTML.
+
+                aria-label gives the button a proper name — "×" on its own is
+                announced as "multiplication sign", which helps nobody.
+            -->
+            <form method="dialog">
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </form>
+        </div>
+
+        <div class="modal-body">
+            <h3>In plain English</h3>
+            <p>
+                Cloning downloads a complete copy of a project from GitHub onto your
+                computer — every file, and the entire history of every change ever made
+                to it.
+            </p>
+
+            <h3>The command</h3>
+<pre><code>git clone https://github.com/RCNile/AI-Academy-Using-Github.git
+cd AI-Academy-Using-Github</code></pre>
+            <p class="hint">
+                The second line moves you <em>into</em> the folder that was just created.
+                Forgetting it is the single most common beginner stumble — Git commands
+                only work inside the project folder.
+            </p>
+
+            <h3>When you'd do this</h3>
+            <p>
+                Once per project. After that you already have it — use
+                <code>git pull</code> to fetch other people's newer changes rather than
+                cloning again.
+            </p>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">Common mistake</span>
+                <code>fatal: destination path already exists</code> means you've already
+                cloned it. Don't clone again — <code>cd</code> into the folder you have and
+                run <code>git pull</code>.
+            </div>
+
+            <h3>Download vs clone</h3>
+            <p>
+                GitHub's "Download ZIP" button gives you the files but <strong>not</strong>
+                the history, and no connection back to GitHub. You can't commit or push
+                from a ZIP. Clone instead — almost always.
+            </p>
+        </div>
+
+        <div class="modal-foot">
+            <form method="dialog"><button class="btn">Close</button></form>
+            <a class="btn btn--secondary"
+               href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository"
+               target="_blank" rel="noopener">
+                GitHub docs<span class="visually-hidden"> on cloning (opens in a new tab)</span>
+            </a>
+        </div>
+    </dialog>
+
+    <!-- ---------- Branch ---------- -->
+    <dialog class="doc-modal" id="modal-branch" aria-labelledby="modal-branch-title">
+        <div class="modal-head">
+            <h2 id="modal-branch-title"><span aria-hidden="true">🌿</span> Create Branches</h2>
+            <form method="dialog">
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </form>
+        </div>
+
+        <div class="modal-body">
+            <h3>In plain English</h3>
+            <p>
+                A branch is your own private copy of the project to experiment in. You can
+                change anything, break anything, and the version everyone else is using
+                stays exactly as it was.
+            </p>
+            <p>
+                Think of it as duplicating a slide deck before a big redesign, so the
+                original is still there if the new direction doesn't work out.
+            </p>
+
+            <h3>The command</h3>
+<pre><code>git checkout -b feature/add-jane-smith</code></pre>
+            <p class="hint">
+                <code>-b</code> means "create this branch, then switch to it". Without
+                <code>-b</code>, Git expects the branch to exist already.
+            </p>
+
+            <h3>Naming branches</h3>
+            <p>Most teams use a short prefix describing the kind of work:</p>
+            <ul class="content-list">
+                <li><code>feature/add-team-member</code> — something new</li>
+                <li><code>fix/broken-footer-link</code> — repairing something</li>
+                <li><code>docs/clarify-setup-steps</code> — documentation only</li>
+            </ul>
+            <p class="note">
+                Include your name or the specific task. <code>my-branch</code> tells nobody
+                anything.
+            </p>
+
+            <h3>Useful commands</h3>
+<pre><code>git branch          # list branches; * marks the one you're on
+git checkout main   # switch back to the main branch
+git switch main     # newer, clearer name for the same thing</code></pre>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">Why bother, on a small change?</span>
+                Because unfinished work on <code>main</code> is instantly everyone's problem.
+                On a branch, it's yours alone until you're ready to share it.
+            </div>
+        </div>
+
+        <div class="modal-foot">
+            <form method="dialog"><button class="btn">Close</button></form>
+            <a class="btn btn--secondary"
+               href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches"
+               target="_blank" rel="noopener">
+                GitHub docs<span class="visually-hidden"> on branches (opens in a new tab)</span>
+            </a>
+        </div>
+    </dialog>
+
+    <!-- ---------- Commit ---------- -->
+    <dialog class="doc-modal" id="modal-commit" aria-labelledby="modal-commit-title">
+        <div class="modal-head">
+            <h2 id="modal-commit-title"><span aria-hidden="true">📝</span> Commit Changes</h2>
+            <form method="dialog">
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </form>
+        </div>
+
+        <div class="modal-body">
+            <h3>In plain English</h3>
+            <p>
+                A commit is a save point with a note attached. Unlike saving a document,
+                committing never overwrites anything — every previous version stays
+                available forever.
+            </p>
+
+            <h3>The commands</h3>
+<pre><code>git status                              # what have I changed?
+git diff                                # exactly which lines?
+git add team.html                       # stage this file
+git commit -m "Add Jane to team page"   # save the snapshot</code></pre>
+
+            <h3>Why two steps?</h3>
+            <p>
+                <code>git add</code> then <code>git commit</code> feels redundant at first.
+                It exists so you can commit <em>some</em> changes and not others — if you
+                edited four files but only two are finished, you stage those two.
+            </p>
+            <p class="note">
+                <code>git add</code> is "put this in the box".
+                <code>git commit</code> is "seal the box and label it".
+            </p>
+
+            <h3>Writing the message</h3>
+            <p>Finish the sentence <em>"If applied, this commit will…"</em></p>
+            <ul class="content-list">
+                <li><code>Add Jane Smith to team page</code> — clear and specific</li>
+                <li><code>Fix broken GitHub link in footer</code> — says what and where</li>
+                <li><code>update</code> — update <em>what?</em></li>
+                <li><code>fixed stuff</code> — which stuff?</li>
+            </ul>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">Common mistake</span>
+                <code>Please tell me who you are</code> means Git doesn't know your name
+                yet. Run this once and it's solved for every project:
+<pre><code>git config --global user.name "Your Name"
+git config --global user.email "you@nilehq.com"</code></pre>
+            </div>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">Commit small and often</span>
+                Many small commits are far easier to review — and far easier to undo — than
+                one enormous one. A commit per logical change is a good rhythm.
+            </div>
+        </div>
+
+        <div class="modal-foot">
+            <form method="dialog"><button class="btn">Close</button></form>
+            <a class="btn btn--secondary" href="https://cbea.ms/git-commit/"
+               target="_blank" rel="noopener">
+                Guide to commit messages<span class="visually-hidden"> (opens in a new tab)</span>
+            </a>
+        </div>
+    </dialog>
+
+    <!-- ---------- Push ---------- -->
+    <dialog class="doc-modal" id="modal-push" aria-labelledby="modal-push-title">
+        <div class="modal-head">
+            <h2 id="modal-push-title"><span aria-hidden="true">🚀</span> Push to GitHub</h2>
+            <form method="dialog">
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </form>
+        </div>
+
+        <div class="modal-body">
+            <h3>In plain English</h3>
+            <p>
+                Committing saves your work <em>on your own computer</em>. Pushing uploads
+                those commits to GitHub, where teammates can see them.
+            </p>
+            <p>
+                Until you push, your work exists in exactly one place — and a laptop that
+                gets lost or dies takes it with it.
+            </p>
+
+            <h3>The command</h3>
+<pre><code>git push origin feature/add-jane-smith</code></pre>
+            <p class="hint">
+                <code>origin</code> is Git's default nickname for "the copy on GitHub I
+                cloned from". Then the name of the branch you're sending.
+            </p>
+
+            <h3>Pull vs push</h3>
+            <ul class="content-list">
+                <li><code>git push</code> — send my commits up to GitHub</li>
+                <li><code>git pull</code> — bring everyone else's commits down to me</li>
+            </ul>
+            <p class="note">Pull before you start work. Push when you've finished a piece.</p>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">Common mistake</span>
+                <code>Updates were rejected because the remote contains work that you do
+                not have</code> means someone pushed while you were working. Fetch their
+                changes first:
+<pre><code>git pull
+git push</code></pre>
+                Never reach for <code>git push --force</code> to make this go away. It
+                overwrites their work.
+            </div>
+
+            <div class="callout callout--security">
+                <span class="callout-title">Authentication</span>
+                GitHub stopped accepting account passwords on the command line in 2021.
+                If you're prompted for one, use <code>gh auth login</code> or paste a
+                Personal Access Token instead. Full walkthrough in the README.
+            </div>
+        </div>
+
+        <div class="modal-foot">
+            <form method="dialog"><button class="btn">Close</button></form>
+            <a class="btn btn--secondary"
+               href="https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository"
+               target="_blank" rel="noopener">
+                GitHub docs<span class="visually-hidden"> on pushing (opens in a new tab)</span>
+            </a>
+        </div>
+    </dialog>
+
+    <!-- ---------- Pull request ---------- -->
+    <dialog class="doc-modal" id="modal-pr" aria-labelledby="modal-pr-title">
+        <div class="modal-head">
+            <h2 id="modal-pr-title"><span aria-hidden="true">🔀</span> Open Pull Requests</h2>
+            <form method="dialog">
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </form>
+        </div>
+
+        <div class="modal-body">
+            <h3>In plain English</h3>
+            <p>
+                A pull request says: <em>"Here's my change. Please look at it before we make
+                it official."</em> It's the conversation that happens around a change,
+                before it joins the main project.
+            </p>
+            <p>
+                The name is confusing and everyone agrees. You're not requesting a pull —
+                you're asking the project to pull <em>your</em> work in. Everyone calls
+                them "PRs".
+            </p>
+
+            <h3>How to open one</h3>
+            <ol class="steps">
+                <li>Push your branch. Git prints a link — that's the quickest route.</li>
+                <li>
+                    Or go to the repo on GitHub; a banner offers to open a PR for any branch
+                    you've pushed recently.
+                </li>
+                <li>Write a title and a short description of what you changed and why.</li>
+                <li>Click <strong>Create pull request</strong>.</li>
+            </ol>
+
+            <h3>What makes a good description</h3>
+            <ul class="content-list">
+                <li><strong>What</strong> changed — in one sentence</li>
+                <li><strong>Why</strong> — the reason, which the code itself can't tell anyone</li>
+                <li><strong>How to check it</strong> — what a reviewer should look at</li>
+            </ul>
+
+            <h3>Review isn't criticism</h3>
+            <p>
+                Someone will read your change and may ask questions or suggest edits. That's
+                the point of the process — it catches problems cheaply, and it's how everyone
+                stays aware of what's changing. Questions on your PR are not a judgement on
+                your work.
+            </p>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">This is where non-developers spend most time</span>
+                Reading PRs, leaving comments, approving designs. You can comment on any
+                individual line of a change — you never need to touch the command line to
+                take part.
+            </div>
+        </div>
+
+        <div class="modal-foot">
+            <form method="dialog"><button class="btn">Close</button></form>
+            <a class="btn btn--secondary"
+               href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests"
+               target="_blank" rel="noopener">
+                GitHub docs<span class="visually-hidden"> on pull requests (opens in a new tab)</span>
+            </a>
+        </div>
+    </dialog>
+
+    <!-- ---------- Merge ---------- -->
+    <dialog class="doc-modal" id="modal-merge" aria-labelledby="modal-merge-title">
+        <div class="modal-head">
+            <h2 id="modal-merge-title"><span aria-hidden="true">✅</span> Merge Code</h2>
+            <form method="dialog">
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </form>
+        </div>
+
+        <div class="modal-body">
+            <h3>In plain English</h3>
+            <p>
+                Merging combines your branch back into the main project. Once your pull
+                request is approved, clicking <strong>Merge pull request</strong> makes your
+                change part of the real thing.
+            </p>
+
+            <h3>Who does it</h3>
+            <p>
+                On most teams, whoever reviewed it — or you, once you have approval. On this
+                workshop repo, the workshop lead will merge yours.
+            </p>
+
+            <h3>Where it actually gets merged <em>to</em></h3>
+            <p>
+                On this practice repo your branch merges straight into <code>main</code>,
+                because there's nothing to deploy and nobody to break. Real client projects
+                almost never work that way — a change is <strong>promoted</strong> through a
+                series of environments, and each one is a chance to catch a problem before a
+                customer does.
+            </p>
+
+            <p>A typical three-stage setup:</p>
+<pre><code>feature/add-jane ──┐
+                   ├──►  staging  ──►  main
+feature/fix-nav  ──┘   (pre-prod)     (live)
+   your work           team + client    real users
+   in progress         testing here     see this</code></pre>
+
+            <ul class="content-list">
+                <li>
+                    <strong><code>feature/*</code></strong> — one branch per piece of work.
+                    Yours. Nobody else is affected by it.
+                </li>
+                <li>
+                    <strong><code>staging</code></strong> (also called pre-prod, UAT or
+                    develop) — a copy of the live site, on real infrastructure, with test
+                    data. Where QA happens and where you'd send a client for sign-off.
+                </li>
+                <li>
+                    <strong><code>main</code></strong> — production. What actual users see.
+                    Guarded, usually with rules that prevent pushing to it directly.
+                </li>
+            </ul>
+
+            <h3>Promoting a change, step by step</h3>
+            <p>
+                In practice each of these merges is a pull request on GitHub rather than
+                typed locally — but this is what the PR is doing underneath:
+            </p>
+<pre><code># STEP 1 — your feature is approved. Merge it into staging.
+git checkout staging
+git pull                                  # get whatever else landed first
+git merge feature/add-jane-smith
+git push origin staging
+
+# --- the staging site rebuilds. Test it. Get client sign-off. ---
+
+# STEP 2 — confirmed good? Promote staging to production.
+git checkout main
+git pull
+git merge staging
+git push origin main
+
+# --- the live site rebuilds. Your change is out in the world. ---</code></pre>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">The rule that makes this work</span>
+                Changes only ever flow <strong>one direction</strong>: feature → staging →
+                main. Never the reverse. If something is broken in production you fix it on a
+                new branch and promote the fix forward through the same path — you don't edit
+                <code>main</code> directly, however tempting it is at 5pm on a Friday.
+            </div>
+
+            <h3>Why bother with the middle step?</h3>
+            <p>
+                Because "it worked on my laptop" is not evidence. Staging runs on the same
+                infrastructure as production, so it catches the class of problem that only
+                appears there: missing environment variables, a database that behaves
+                differently at scale, an integration that was only ever mocked locally.
+            </p>
+            <p class="note">
+                It's also simply where non-developers do their bit. When someone asks you to
+                "check it on staging before we ship", this is the branch they mean.
+            </p>
+
+            <div class="callout callout--warning">
+                <span class="callout-title">Names vary, the shape doesn't</span>
+                You'll meet <code>develop</code>, <code>uat</code>, <code>qa</code>,
+                <code>preprod</code>, <code>release/*</code>, and teams with four or five
+                stages instead of two. Some call production <code>master</code> or
+                <code>prod</code> rather than <code>main</code>. The vocabulary changes
+                between companies; the one-directional flow is the constant. Ask which branch
+                deploys where — it's a normal question, and the answer is often undocumented.
+            </div>
+
+            <h3>Merge conflicts</h3>
+            <p>
+                If two people changed the same lines, Git won't guess which version is
+                right. It stops and asks. You'll see markers like this in the file:
+            </p>
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+their version of the line
+=======
+your version of the line
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/add-jane-smith</code></pre>
+            <p>
+                Delete the markers and leave the text you actually want — often both lines,
+                one after the other. Then:
+            </p>
+<pre><code>git add team.html
+git commit -m "Resolve merge conflict in team page"</code></pre>
+
+            <div class="callout callout--tip">
+                <span class="callout-title">A conflict is not a mistake</span>
+                It means two people were working productively at the same time. Every
+                developer resolves these regularly. Hitting one during the workshop is
+                good practice, not a problem.
+            </div>
+
+            <h3>After merging</h3>
+<pre><code>git checkout main   # go back to the main branch
+git pull            # collect your change, now merged in</code></pre>
+            <p class="note">
+                Your work is now part of the project, and its history records that you did
+                it. That's the loop complete.
+            </p>
+        </div>
+
+        <div class="modal-foot">
+            <form method="dialog"><button class="btn">Close</button></form>
+            <a class="btn btn--secondary"
+               href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts"
+               target="_blank" rel="noopener">
+                GitHub docs<span class="visually-hidden"> on merge conflicts (opens in a new tab)</span>
+            </a>
+        </div>
+    </dialog>
+
+    <!--
+        =======================================================================
+        JAVASCRIPT — opening the modals
+        =======================================================================
+
+        Around twenty lines, because the <dialog> element does the hard parts.
+        Compare this with any "build an accessible modal" tutorial that doesn't
+        use <dialog> — they run to hundreds of lines of focus management.
+        =======================================================================
+    -->
+    <script>
+        'use strict';
+
+        // ------------------------------------------------------------------
+        // ONE listener for all six cards, not six listeners.
+        //
+        // This is "event delegation": we listen on the container, and when a
+        // click happens we work out which card it came from. Clicks bubble UP
+        // from the element you hit through each of its parents, so the grid
+        // hears every click inside it.
+        //
+        // Two benefits: less code, and it keeps working if cards are added
+        // later — no new listener needed.
+        // ------------------------------------------------------------------
+        const grid = document.querySelector('.feature-grid');
+
+        grid.addEventListener('click', function (event) {
+            // .closest() walks up from the clicked element looking for the
+            // nearest matching ancestor. So a click on the heading, the text
+            // or the button all resolve to the same card.
+            const card = event.target.closest('.feature[data-modal]');
+            if (!card) return;   // clicked a gap between cards — ignore it
+
+            const dialog = document.getElementById(card.dataset.modal);
+            // dataset.modal reads the data-modal="..." attribute.
+            if (!dialog) return;
+
+            // showModal() — not show(). showModal() traps focus, enables
+            // Escape to close, and makes the rest of the page inert.
+            // show() does none of that.
+            dialog.showModal();
+
+            // Stop the page behind from scrolling. The browser doesn't do this
+            // for us: without it, scrolling past the end of the modal's own
+            // content starts scrolling the page underneath instead.
+            document.body.style.overflow = 'hidden';
+        });
+
+        // ------------------------------------------------------------------
+        // Two refinements, applied to every dialog.
+        // ------------------------------------------------------------------
+        document.querySelectorAll('.doc-modal').forEach(function (dialog) {
+
+            // 1. Click the dimmed backdrop to close.
+            //    The backdrop isn't a separate element, so there's nothing to
+            //    attach a listener to. The trick: if the click registered on
+            //    the <dialog> ITSELF rather than on any of its contents, it
+            //    must have landed outside the visible panel.
+            dialog.addEventListener('click', function (event) {
+                if (event.target === dialog) {
+                    dialog.close();
+                }
+            });
+
+            // 2. Release the scroll lock whenever the dialog closes.
+            //    The 'close' event covers every route out — the × button, the
+            //    Close button, the backdrop, and the Escape key. Listening for
+            //    the event rather than handling each of those separately means
+            //    we can't miss one.
+            dialog.addEventListener('close', function () {
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+</body>
+</html>

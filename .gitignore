@@ -1,24 +1,174 @@
-# Nestjs specific
-/dist
-/node_modules
-/build
-/tmp
+# =============================================================================
+# .gitignore — the list of files Git should pretend don't exist
+# =============================================================================
+#
+# WHAT THIS FILE DOES
+# Anything matching a pattern below will never be committed, never be pushed,
+# and won't clutter up `git status`. Git simply ignores it.
+#
+# WHY IT MATTERS
+# Two reasons — one boring, one serious.
+#   1. Boring: keeps junk out (OS clutter, editor settings, build output).
+#   2. Serious: keeps SECRETS out. Once a password is pushed to GitHub, treat
+#      it as public forever. Deleting the file later does NOT remove it from
+#      the repo's history — anyone can still dig it out of old commits.
+#
+# THE RULE TO REMEMBER
+# It is easy to add a file to Git. It is genuinely hard to remove one properly.
+# So: get .gitignore right BEFORE your first commit, not after.
+#
+# ---------------------------------------------------------------------------
+# SYNTAX GOTCHA — read this, it catches everyone
+# ---------------------------------------------------------------------------
+# Git does NOT support comments at the end of a pattern line. This is broken:
+#
+#     .DS_Store        # macOS junk file      <-- WRONG
+#
+# Git reads that whole line as one filename, and looks for a file literally
+# called ".DS_Store        # macOS junk file". The real .DS_Store is NOT
+# ignored, and nothing warns you. Always put comments on their own line.
+#
+# Check whether a pattern actually works:
+#     git check-ignore -v .env
+# Prints the matching rule if it's ignored, prints nothing if it isn't.
+# =============================================================================
 
-# Logs
-logs
+
+# =============================================================================
+# 1. SECRETS AND CREDENTIALS          *** MOST IMPORTANT SECTION ***
+# =============================================================================
+# WHEN this applies: always, in every project, from the very first commit.
+# WHY: these files hold passwords, API keys and tokens. Committing one can
+#      expose a client database, run up a cloud bill, or leak personal data.
+#      Bots actively scan public GitHub for leaked keys — within minutes.
+#
+# Note the pattern: `.env` is ignored, but `.env.example` is NOT (it holds
+# only fake placeholder values). That's how your teammates learn which
+# variables they need without you ever sending them a real password.
+
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Private keys and certificates — these prove you are you. Never share them.
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Credential files that tools sometimes generate for you
+config/secrets.json
+credentials.json
+service-account.json
+*.credentials
+
+
+# =============================================================================
+# 2. OPERATING SYSTEM FILES
+# =============================================================================
+# WHEN this applies: whenever your team uses more than one type of computer.
+# WHY: your OS quietly creates metadata files (window positions, thumbnails)
+#      inside your folders. They're useless to everyone else and cause noisy
+#      "changes" in every pull request. Not a security risk — just mess.
+
+# macOS
+.DS_Store
+.AppleDouble
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+
+# =============================================================================
+# 3. EDITOR AND IDE SETTINGS
+# =============================================================================
+# WHEN this applies: when teammates use different editors, or different setups.
+# WHY: these are YOUR personal preferences (theme, window layout, cursor
+#      position). Committing them means fighting over each other's settings.
+#
+# Judgement call: some teams DO commit .vscode/ deliberately, to share agreed
+# formatting rules. Either is defensible — just decide as a team.
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+.project
+
+
+# =============================================================================
+# 4. DEPENDENCIES
+# =============================================================================
+# WHEN this applies: any project that installs external packages.
+# WHY: dependency folders are enormous (often tens of thousands of files) and
+#      fully reproducible — anyone can regenerate them from the lockfile with
+#      one command. Committing them bloats the repo for no benefit.
+#
+# This particular project has no dependencies at all. These lines are here as
+# a teaching example, since you'll see them in nearly every real repo.
+
+node_modules/
+bower_components/
+vendor/
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+
+# =============================================================================
+# 5. BUILD OUTPUT AND GENERATED FILES
+# =============================================================================
+# WHEN this applies: projects with a build step (most modern web apps).
+# WHY: build output is *derived* from your source code. Commit the recipe, not
+#      the cake — otherwise every build creates a huge confusing diff.
+#
+# This project has no build step: the .html files you edit are exactly what
+# the browser loads. That's unusual, and deliberate — one less thing to learn.
+
+dist/
+build/
+out/
+*.bundle.js
+*.min.js
+.cache/
+
+
+# =============================================================================
+# 6. LOGS AND TEMPORARY FILES
+# =============================================================================
+# WHEN this applies: basically always.
+# WHY: logs are generated at runtime, grow forever, and can accidentally
+#      contain sensitive data (user emails, tokens, internal URLs). Worth a
+#      second thought before sharing one, even in a bug report.
+
 *.log
 npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+yarn-error.log
+logs/
+*.tmp
+.temp/
 
-# dotenv environment variable files
-.env
-.env.development
-.env.test
-.env.production
 
-# temp directory
-.temp
-.tmp
+# =============================================================================
+# WANT TO GO FURTHER?
+# =============================================================================
+# GitHub maintains ready-made .gitignore files for every language:
+#   https://github.com/github/gitignore
+#
+# When you start a new repo on GitHub, it offers to add the right one for you.
+# Take it — it's a better starting point than writing this from scratch.
+# =============================================================================
