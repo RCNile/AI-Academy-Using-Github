@@ -1,5 +1,5 @@
 # Nile Demo Portfolio
-
+HELLO IVE MADE SOME CHANGES 
 ![Nile AI Academy](https://img.shields.io/badge/Nile_AI_Academy-Workshop_Project-1e3c72)
 ![Skill level](https://img.shields.io/badge/skill_level-absolute_beginner-2e7d4f)
 ![Build step](https://img.shields.io/badge/build_step-none_required-2a5298)
